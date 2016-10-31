@@ -6,6 +6,7 @@
   (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/")))
 (package-initialize)
 
+(global-auto-revert-mode t)
 (show-smartparens-global-mode 1)
 (smartparens-global-mode 1)
 
