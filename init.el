@@ -48,11 +48,14 @@
 (add-hook 'helm-goto-line-before-hook 'helm-save-current-pos-to-mark-ring)
 (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
 (setq racer-cmd "~/.cargo/bin/racer")
-;;(setq racer-rust-src-path "/home/nrzus/Programs/rust/src/")
+(setq racer-rust-src-path "/home/nrzus/Programs/rust/src/")
 
-;;(add-hook 'rust-mode-hook #'racer-mode)
+(add-hook 'rust-mode-hook #'racer-mode)
 (add-hook 'racer-mode-hook #'eldoc-mode)
 (add-hook 'racer-mode-hook #'company-mode)
+
+(when (fboundp 'windmove-default-keybindings)
+  (windmove-default-keybindings))
 
 (helm-mode 1)
 
