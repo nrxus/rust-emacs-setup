@@ -18,7 +18,7 @@
 (add-hook 'rust-mode-hook
           (lambda ()
             (local-set-key (kbd "C-c <tab>") #'rust-format-buffer)))
-(sp-local-pair 'rust-hook-mode "'" nil)
+(sp-local-pair 'rust-mode "'" nil :actions nil)
 
 (add-hook 'flycheck-mode-hook #'flycheck-rust-setup)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
