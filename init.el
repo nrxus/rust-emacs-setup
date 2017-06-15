@@ -52,7 +52,7 @@
 (add-hook 'helm-goto-line-before-hook 'helm-save-current-pos-to-mark-ring)
 (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
 (setq racer-cmd "~/.cargo/bin/racer")
-(setq racer-rust-src-path (expand-file-name (getenv "RUST_SRC_PATH")))
+;;(setq racer-rust-src-path (expand-file-name (getenv "RUST_SRC_PATH")))
 
 (add-hook 'rust-mode-hook #'racer-mode)
 (add-hook 'racer-mode-hook #'eldoc-mode)
