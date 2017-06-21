@@ -10,11 +10,12 @@
 (show-smartparens-global-mode 1)
 (smartparens-global-mode 1)
 
-(require 'flymake-yaml) ;; Not necessary if using ELPA package
-(add-hook 'yaml-mode-hook 'flymake-yaml-load)
+(require 'flycheck-yamllint)
+(eval-after-load 'flycheck
+  '(add-hook 'flycheck-mode-hook 'flycheck-yamllint-setup))
 
+(add-hook 'flycheck-mode-hook #'flycheck-rust-setup)
 (add-hook 'rust-mode-hook 'cargo-minor-mode)
-
 (add-hook 'rust-mode-hook
           (lambda ()
             (local-set-key (kbd "C-c <tab>") #'rust-format-buffer)))
@@ -77,7 +78,7 @@
  '(inhibit-startup-screen t)
  '(package-selected-packages
    (quote
-    (yaml-mode flymake-yaml rust-mode base16-theme helm-projectile smartparens undo-tree helm racer flycheck-rust company color-theme cargo async))))
+    (flycheck-yamllint rust-playground yaml-mode flymake-yaml rust-mode base16-theme helm-projectile smartparens undo-tree helm racer flycheck-rust company color-theme cargo async))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
