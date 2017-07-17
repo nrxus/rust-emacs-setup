@@ -3,15 +3,14 @@
 ;;; Code:
 (add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil "flymake-yaml" "flymake-yaml.el" (0 0 0 0))
+;;;### (autoloads nil "flymake-yaml" "flymake-yaml.el" (22892 5196
+;;;;;;  925052 352000))
 ;;; Generated autoloads from flymake-yaml.el
 
 (autoload 'flymake-yaml-load "flymake-yaml" "\
 Configure flymake mode to check the current buffer's YAML syntax.
 
 \(fn)" t nil)
-
-(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "flymake-yaml" '("flymake-yaml-")))
 
 ;;;***
 

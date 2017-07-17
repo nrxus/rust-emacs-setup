@@ -6,11 +6,36 @@
   (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/")))
 (package-initialize)
 
+
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
+(require 'use-package)
+(setq use-package-always-ensure t)
+
+(use-package company)
+(use-package racer)
+(use-package smartparens)
+(use-package flycheck-rust)
+(use-package flymake-yaml)
+(use-package flymake-easy)
+(use-package flycheck-yamllint)
+(use-package helm)
+(use-package helm-projectile)
+(use-package undo-tree)
+(use-package base16-theme)
+(use-package cargo)
+(use-package flymake-rust)
+(use-package seq)
+(use-package rust-playground)
+
+(require 'helm-config)
+
 (global-auto-revert-mode t)
 (show-smartparens-global-mode 1)
 (smartparens-global-mode 1)
 
-(require 'flycheck-yamllint)
 (eval-after-load 'flycheck
   '(add-hook 'flycheck-mode-hook 'flycheck-yamllint-setup))
 
@@ -23,13 +48,6 @@
 
 (add-hook 'flycheck-mode-hook #'flycheck-rust-setup)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-
-;;(require 'color-theme)
-;;(color-theme-initialize)
-;;(color-theme-charcoal-black)
-
-(require 'helm)
-(require 'helm-config)
 
 (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
 (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB work in terminal
@@ -78,7 +96,7 @@
  '(inhibit-startup-screen t)
  '(package-selected-packages
    (quote
-    (flycheck-yamllint rust-playground yaml-mode flymake-yaml rust-mode base16-theme helm-projectile smartparens undo-tree helm racer flycheck-rust company color-theme cargo async))))
+    (flymake-rust flycheck-yamllint rust-playground yaml-mode flymake-yaml rust-mode base16-theme helm-projectile smartparens undo-tree helm racer flycheck-rust company color-theme cargo async))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

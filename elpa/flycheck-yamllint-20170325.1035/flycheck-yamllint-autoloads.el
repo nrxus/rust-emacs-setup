@@ -4,7 +4,7 @@
 (add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
 ;;;### (autoloads nil "flycheck-yamllint" "flycheck-yamllint.el"
-;;;;;;  (0 0 0 0))
+;;;;;;  (22891 61829 66570 431000))
 ;;; Generated autoloads from flycheck-yamllint.el
 
 (autoload 'flycheck-yamllint-setup "flycheck-yamllint" "\

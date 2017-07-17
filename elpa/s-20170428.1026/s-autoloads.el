@@ -3,10 +3,7 @@
 ;;; Code:
 (add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil "s" "s.el" (0 0 0 0))
-;;; Generated autoloads from s.el
-
-(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "s" '("s-")))
+;;;### (autoloads nil nil ("s.el") (22891 61617 679700 352000))
 
 ;;;***
 
