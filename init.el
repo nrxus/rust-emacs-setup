@@ -23,6 +23,7 @@
 (use-package flycheck-yamllint)
 (use-package helm)
 (use-package helm-projectile)
+(use-package markdown-mode)
 (use-package undo-tree)
 (use-package base16-theme)
 (use-package cargo)
