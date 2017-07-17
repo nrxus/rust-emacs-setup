@@ -1,1 +1,0 @@
-("~/workspace/game_of_life/")
