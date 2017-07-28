@@ -30,8 +30,11 @@
 (use-package flymake-rust)
 (use-package seq)
 (use-package rust-playground)
+(use-package yaml-mode)
 
 (require 'helm-config)
+(require 'yaml-mode)
+(add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
 
 (global-auto-revert-mode t)
 (show-smartparens-global-mode 1)
@@ -84,6 +87,15 @@
 (helm-mode 1)
 
 (load-theme 'base16-atelier-plateau t)
+
+(when (executable-find "rustc")
+  (setenv "LD_LIBRARY_PATH"
+	  (let* ((sysroot (s-trim-right
+			   (shell-command-to-string
+			    (format "%s --print sysroot" (executable-find "rustc")))))
+		 (lib-path (f-join sysroot "lib")))
+	    (when (file-exists-p lib-path) lib-path)
+	    lib-path)))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
