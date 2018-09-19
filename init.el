@@ -18,22 +18,34 @@
 (use-package racer)
 (use-package smartparens)
 (use-package flycheck-rust)
-(use-package flymake-yaml)
-(use-package flymake-easy)
 (use-package flycheck-yamllint)
+(use-package flycheck-inline)
 (use-package helm)
 (use-package helm-projectile)
 (use-package markdown-mode)
 (use-package undo-tree)
 (use-package base16-theme)
 (use-package cargo)
-(use-package flymake-rust)
 (use-package seq)
 (use-package rust-playground)
 (use-package yaml-mode)
+(use-package edit-indirect)
+(use-package multiple-cursors)
+(use-package expand-region)
 
-(require 'helm-config)
-(require 'yaml-mode)
+(use-package rainbow-delimiters
+  :hook (prog-mode . rainbow-delimiters-mode))
+
+(use-package flycheck
+  :init (global-flycheck-mode))
+
+(use-package markdown-mode
+  :commands (markdown-mode gfm-mode)
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode))
+  :init (setq markdown-command "multimarkdown"))
+
 (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
 
 (global-auto-revert-mode t)
@@ -43,14 +55,17 @@
 (eval-after-load 'flycheck
   '(add-hook 'flycheck-mode-hook 'flycheck-yamllint-setup))
 
-(add-hook 'flycheck-mode-hook #'flycheck-rust-setup)
+(with-eval-after-load 'flycheck
+  (flycheck-inline-mode))
+
+(with-eval-after-load 'rust-mode
+  (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
 (add-hook 'rust-mode-hook 'cargo-minor-mode)
 (add-hook 'rust-mode-hook
           (lambda ()
             (local-set-key (kbd "C-c <tab>") #'rust-format-buffer)))
 (sp-local-pair 'rust-mode "'" nil :actions nil)
 
-(add-hook 'flycheck-mode-hook #'flycheck-rust-setup)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 
 (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
@@ -59,7 +74,7 @@
 
 (global-undo-tree-mode)
 
-(setq helm-split-window-in-side-p           t ; open helm buffer inside current window, not occupy whole other window
+(setq helm-split-window-inside-p           t ; open helm buffer inside current window, not occupy whole other window
       helm-move-to-line-cycle-in-source     t ; move to end or beginning of source when reaching top or bottom of source.
       helm-ff-search-library-in-sexp        t ; search for library in `require' and `declare-function' sexp.
       helm-scroll-amount                    4 ; scroll 4 lines other window using M-<next>/M-<prior>
@@ -80,6 +95,7 @@
 (add-hook 'rust-mode-hook #'racer-mode)
 (add-hook 'racer-mode-hook #'eldoc-mode)
 (add-hook 'racer-mode-hook #'company-mode)
+(add-hook 'flycheck-mode-hook #'flycheck-rust-setup)
 
 (when (fboundp 'windmove-default-keybindings)
   (windmove-default-keybindings))
@@ -87,6 +103,25 @@
 (helm-mode 1)
 
 (load-theme 'base16-atelier-plateau t)
+
+(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+(global-set-key (kbd "C->") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+(define-key mc/keymap (kbd "<return>") nil)
+
+(global-set-key (kbd "<M-up>") 'er/expand-region)
+(global-set-key (kbd "<M-down>") 'er/contract-region)
+
+(defun duplicate-line()
+  (interactive)
+  (move-beginning-of-line 1)
+  (kill-line)
+  (yank)
+  (open-line 1)
+  (forward-line 1)
+  (yank))
+(global-set-key (kbd "M-D") 'duplicate-line)
 
 (when (executable-find "rustc")
   (setenv "LD_LIBRARY_PATH"
@@ -109,7 +144,7 @@
  '(inhibit-startup-screen t)
  '(package-selected-packages
    (quote
-    (flymake-rust flycheck-yamllint rust-playground yaml-mode flymake-yaml rust-mode base16-theme helm-projectile smartparens undo-tree helm racer flycheck-rust company color-theme cargo async))))
+    (expand-region multiple-cursors rainbow-delimiters flycheck-inline json-mode helm-ag edit-indirect flymake-rust flycheck-yamllint rust-playground yaml-mode flymake-yaml rust-mode base16-theme helm-projectile smartparens undo-tree helm racer flycheck-rust company color-theme cargo async))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

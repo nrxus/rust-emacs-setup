@@ -3,3 +3,7 @@ auto-save-list
 elpa/**
 recentf
 url/**
+eshell/**
+rust-playground/
+.mc-lists.el
+\#*#
