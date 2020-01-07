@@ -5,6 +5,8 @@
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 (package-initialize)
 
+(tool-bar-mode -1)
+(menu-bar-mode -1)
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -14,11 +16,9 @@
 (setq use-package-always-ensure t)
 
 (use-package company)
+(use-package toml-mode)
 (use-package racer)
 (use-package smartparens)
-(use-package flycheck-rust)
-(use-package flycheck-yamllint)
-(use-package flycheck-inline)
 (use-package helm)
 (use-package helm-projectile)
 (use-package markdown-mode)
@@ -32,11 +32,14 @@
 (use-package multiple-cursors)
 (use-package expand-region)
 
-(use-package rainbow-delimiters
-  :hook (prog-mode . rainbow-delimiters-mode))
-
 (use-package flycheck
   :init (global-flycheck-mode))
+(use-package flycheck-rust)
+(use-package flycheck-yamllint)
+(use-package flycheck-inline)
+
+(use-package rainbow-delimiters
+  :hook (prog-mode . rainbow-delimiters-mode))
 
 (use-package markdown-mode
   :commands (markdown-mode gfm-mode)
@@ -59,13 +62,12 @@
 
 (with-eval-after-load 'rust-mode
   (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
+(add-hook 'rust-mode-hook 'hs-minor-mode)
 (add-hook 'rust-mode-hook 'cargo-minor-mode)
 (add-hook 'rust-mode-hook
           (lambda ()
             (local-set-key (kbd "C-c <tab>") #'rust-format-buffer)))
 (sp-local-pair 'rust-mode "'" nil :actions nil)
-
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 
 (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
 (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB work in terminal
@@ -100,6 +102,7 @@
   (windmove-default-keybindings))
 
 (helm-mode 1)
+(global-visual-line-mode 1)
 
 (load-theme 'base16-atelier-plateau t)
 
@@ -111,6 +114,12 @@
 
 (global-set-key (kbd "<M-up>") 'er/expand-region)
 (global-set-key (kbd "<M-down>") 'er/contract-region)
+
+(define-key helm-map (kbd "<left>") 'helm-previous-source)
+(define-key helm-map (kbd "<right>") 'helm-next-source)
+(customize-set-variable 'helm-ff-lynx-style-map t)
+
+(set-face-attribute 'default nil :height 100)
 
 (defun duplicate-line()
   (interactive)
@@ -143,7 +152,7 @@
  '(inhibit-startup-screen t)
  '(package-selected-packages
    (quote
-    (expand-region multiple-cursors rainbow-delimiters flycheck-inline json-mode helm-ag edit-indirect flymake-rust flycheck-yamllint rust-playground yaml-mode flymake-yaml rust-mode base16-theme helm-projectile smartparens undo-tree helm racer flycheck-rust company color-theme cargo async))))
+    (toml-mode expand-region multiple-cursors rainbow-delimiters flycheck-inline json-mode helm-ag edit-indirect flymake-rust flycheck-yamllint rust-playground yaml-mode flymake-yaml rust-mode base16-theme helm-projectile smartparens undo-tree helm racer flycheck-rust company color-theme cargo async))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
